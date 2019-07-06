@@ -37,6 +37,6 @@ setup(
     author="Egor Artemov",
     author_email="egor.artemov@gmail.com",
     url="https://github.com/souryogurt/aviasales",
-    install_requires=[],
+    install_requires=["aiohttp"],
     setup_requires=[]
 )

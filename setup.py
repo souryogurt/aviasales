@@ -34,8 +34,10 @@ setup(
     version=get_version(),
     description="Web service that provides flights API.",
     long_description=get_description(),
+    long_description_content_type="text/x-rst",
     author="Egor Artemov",
     author_email="egor.artemov@gmail.com",
+    license="WTFPL",
     url="https://github.com/souryogurt/aviasales",
     install_requires=["aiohttp"],
     setup_requires=[]

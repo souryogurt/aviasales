@@ -25,6 +25,7 @@ def get_description():
 setup(
     name="aviasales",
     packages=["aviasales"],
+    package_data={'aviasales': ['*.xml']},
     test_suite="tests",
     entry_points={
         "console_scripts": [

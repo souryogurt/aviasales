@@ -20,16 +20,16 @@ Usage
 
 Run service just by invoking ``aviasales`` command. Service also accepts flags::
 
-    usage: aviasales [-h] [--verbose] [-i HOST] [-u PATH] [-p PORT]
+    usage: aviasales [-h] [--verbose] [-H HOST] [-p PATH] [-P PORT]
 
     Web service that provides flights API
 
     optional arguments:
       -h, --help            show this help message and exit
       --verbose             be verbose
-      -i HOST, --host HOST  host address to listen on
-      -u PATH, --path PATH  unix socket path to listen on
-      -p PORT, --port PORT  TCP port to listen on
+      -H HOST, --host HOST  host address to listen on
+      -p PATH, --path PATH  unix socket path to listen on
+      -P PORT, --port PORT  TCP port to listen on
 
 Contribute
 ----------

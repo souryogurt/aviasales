@@ -2,27 +2,26 @@
 """Module that provides API to partner service"""
 
 from xml.etree import ElementTree as ET
+from typing import List
 from pkg_resources import resource_filename
+from .models import Itinerary, ItineraryType
 
-__all__ = ['fetch_tickets']
+RESPONSE_MOCKS = {
+    ItineraryType.ONEWAY: resource_filename('aviasales', 'RS_ViaOW.xml'),
+    ItineraryType.ROUNDTRIP: resource_filename('aviasales', 'RS_Via-3.xml')
+}
+
+__all__ = ['fetch_itineraries']
 
 
-async def fetch_tickets(tickets_type):
+async def fetch_itineraries(itinerary_type: ItineraryType) -> List[Itinerary]:
     """Make call to partner API and return list of tickets."""
     # In case of actual service, here we can make real HTTP request, but right
     # now we are just using predefined response.
-    filename = 'RS_ViaOW.xml' if tickets_type == 'oneway' else 'RS_Via-3.xml'
-    fullname = resource_filename('aviasales', filename)
-    return parse_tickets(ET.parse(fullname))
-
-
-def parse_tickets(xml):
-    """Parse parther's response and return list of tickets."""
+    xml = ET.parse(RESPONSE_MOCKS[ItineraryType(itinerary_type)])
     tickets = list()
     for priced_flight in xml.findall('.//PricedItineraries/Flights'):
-        tickets.append({
-            'type': get_ticket_type(priced_flight),
-        })
+        tickets.append(Itinerary())
     return tickets
 
 

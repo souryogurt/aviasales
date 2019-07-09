@@ -31,6 +31,14 @@ Run service just by invoking ``aviasales`` command. Service also accepts flags::
       -p PATH, --path PATH  unix socket path to listen on
       -P PORT, --port PORT  TCP port to listen on
 
+
+API
+---
+
+Get list if itineraries::
+     GET /itineraries?type={oneway,roundtrip}
+
+
 Contribute
 ----------
 - Issue Tracker: https://github.com/souryogurt/aviasales/issues

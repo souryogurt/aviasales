@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """Module that provides API to partner service"""
 
+import argparse
 import asyncio
 import sys
-import argparse
+from decimal import Decimal
 from xml.etree import ElementTree as ET
+
 from pkg_resources import resource_filename
 
 __all__ = ['fetch_itineraries']
@@ -25,7 +27,7 @@ async def fetch_itineraries(itineraries_type):
         itineraries.append({
             'onward': parse_flights(itinerary.findall('.//OnwardPricedItinerary/Flights/Flight')),
             'return': parse_flights(itinerary.findall('.//ReturnPricedItinerary/Flights/Flight')),
-            'pricing': parse_pricing(itinerary.find('.//Pricing')),
+            'prices': parse_pricing(itinerary.find('.//Pricing')),
         })
     return itineraries
 
@@ -50,10 +52,28 @@ def parse_flights(flights):
 
 def parse_pricing(pricing):
     """Parse xml tree and return pricing list."""
-    price = {
-        'currency': pricing.get('currency').strip(),
-    }
-    return price
+    currency = pricing.get('currency').strip()
+    result = dict()
+    total_match = './ServiceCharges[@type="{}"][@ChargeType="TotalAmount"]'
+    price = pricing.findtext(total_match.format('SingleAdult'))
+    if price:
+        result['adult'] = {
+            'currency': currency,
+            'total': Decimal(price),
+        }
+    price = pricing.findtext(total_match.format('SingleChild'))
+    if price:
+        result['child'] = {
+            'currency': currency,
+            'total': Decimal(price),
+        }
+    price = pricing.findtext(total_match.format('SingleInfant'))
+    if price:
+        result['infant'] = {
+            'currency': currency,
+            'total': Decimal(price),
+        }
+    return result
 
 
 async def print_itineraries(itineraries_type):

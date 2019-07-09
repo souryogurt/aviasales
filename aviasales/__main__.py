@@ -3,7 +3,9 @@
 
 import argparse
 import sys
+
 from aiohttp import web
+
 from . import partner
 
 __all__ = ['main']
